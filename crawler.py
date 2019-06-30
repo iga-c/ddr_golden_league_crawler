@@ -17,6 +17,7 @@ class GoldenLeagueCrawler:
         self.gold_u_border, self.gold_l_border, self.time_text = self.border_crawl("https://p.eagate.573.jp/game/ddr/ddra20/p/ranking/index.html?league_id=3&class_id=3")
         self.silver_u_border, self.silver_l_border, self.time_text = self.border_crawl("https://p.eagate.573.jp/game/ddr/ddra20/p/ranking/index.html?league_id=3&class_id=2")
         self.bronze_u_border, self.bronze_l_border, self.time_text = self.border_crawl("https://p.eagate.573.jp/game/ddr/ddra20/p/ranking/index.html?league_id=3&class_id=1")
+        self.driver.close()
 
     def border_crawl(self, url):
         self.driver.get(url)
