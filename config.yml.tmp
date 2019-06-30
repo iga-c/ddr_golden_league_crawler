@@ -1,0 +1,16 @@
+# konamiのサイトにログインしている際に使用しているクッキーの値
+cookie_value: 
+
+# Chromeのバイナリのパス
+# 指定しない場合は空文字列
+binary_location: 
+
+# ChromeDriverのパス
+webdriver_path: 
+
+# Twitter APIキー
+# 使用しない場合は空文字列
+consumer_key: 
+consumer_secret: 
+token: 
+token_secret: 
