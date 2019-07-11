@@ -8,6 +8,9 @@ binary_location:
 # ChromeDriverのパス
 webdriver_path: 
 
+# クロール失敗時に再取得を行う回数
+retry_count: 3
+
 # Twitter APIキー
 # 使用しない場合は空文字列
 consumer_key: 

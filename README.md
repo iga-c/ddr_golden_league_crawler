@@ -40,6 +40,7 @@ vi config.yml
 | consumer_secret | Twitter APIのconsumer_key_secret 使用しない場合は空欄 | 
 | token | Twitter APIのtoken 使用しない場合は空欄 | 
 | token_secret | Twitter APIのtoken secret 使用しない場合は空欄 |
+| retry_count | クロール失敗時に取得し直す回数 |
 
 (※) ページ下部にクッキーの値の確認方法が記載されています。
 
@@ -66,7 +67,7 @@ import後、GoldenLeagueCrawlerインスタンスを生成してクロールを�
 ```python
 f = open("config.yml", "r+")
 data = yaml.safe_load(f)
-crawler = GoldenLeagueCrawler(data["cookie_value"], data["webdriver_path"], '' if data["binary_location"] is None else data["binary_location"])
+crawler = GoldenLeagueCrawler(data["cookie_value"], data["webdriver_path"], '' if data["binary_location"] is None else data["binary_location"], data["retry_count"])
 crawler.crawl()
 ```
 
