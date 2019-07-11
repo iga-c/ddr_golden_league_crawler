@@ -4,36 +4,45 @@ from selenium import webdriver
 
 class GoldenLeagueCrawler:
 
-    def __init__(self, cookie_value, webdriver_path, binary_location=''):
+    def __init__(self, cookie_value, webdriver_path, binary_location='', retry_count=3):
         self.cookie_value = cookie_value
         self.webdriver_path = webdriver_path
         self.binary_location = binary_location
+        self.retry_count = retry_count
 
     def crawl(self):
         self.generate_selenium_driver()
         self.driver.get("https://p.eagate.573.jp/game/ddr/ddra20/")
         time.sleep(3)
         self.driver.add_cookie({'name': 'M573SSID', 'value': self.cookie_value})
-        self.gold_u_border, self.gold_l_border, self.time_text = self.border_crawl("https://p.eagate.573.jp/game/ddr/ddra20/p/ranking/index.html?league_id=3&class_id=3")
-        self.silver_u_border, self.silver_l_border, self.time_text = self.border_crawl("https://p.eagate.573.jp/game/ddr/ddra20/p/ranking/index.html?league_id=3&class_id=2")
-        self.bronze_u_border, self.bronze_l_border, self.time_text = self.border_crawl("https://p.eagate.573.jp/game/ddr/ddra20/p/ranking/index.html?league_id=3&class_id=1")
+        self.gold_u_border, self.gold_l_border, self.time_text = self.border_crawl("https://p.eagate.573.jp/game/ddr/ddra20/p/ranking/index.html?league_id=3&class_id=3", self.retry_count)
+        self.silver_u_border, self.silver_l_border, self.time_text = self.border_crawl("https://p.eagate.573.jp/game/ddr/ddra20/p/ranking/index.html?league_id=3&class_id=2", self.retry_count)
+        self.bronze_u_border, self.bronze_l_border, self.time_text = self.border_crawl("https://p.eagate.573.jp/game/ddr/ddra20/p/ranking/index.html?league_id=3&class_id=1", self.retry_count)
         self.driver.close()
 
-    def border_crawl(self, url):
-        self.driver.get(url)
-        time.sleep(3)
-        idx = 0
-        u_border = ""
-        l_border = ""
-        time_text = ""
-        for td in self.driver.find_elements_by_xpath("//table[@class='table01'][2]/tbody/tr/td"):
-            if idx == 0:
-                u_border = td.text
-            if idx == 1:
-                l_border = td.text
-            if idx == 2:
-                time_text = td.text
-            idx += 1
+    def border_crawl(self, url, retry_count):
+        for i in range(retry_count):
+            self.driver.get(url)
+            time.sleep(3)
+            idx = 0
+            u_border = ""
+            l_border = ""
+            time_text = ""
+            for td in self.driver.find_elements_by_xpath("//table[@class='table01'][2]/tbody/tr/td"):
+                if idx == 0:
+                    u_border = td.text
+                if idx == 1:
+                    l_border = td.text
+                if idx == 2:
+                    time_text = td.text
+                idx += 1
+            
+            if u_border.isdecimal() or l_border.isdecimal():
+                break
+            
+            if i == retry_count - 1:
+                u_border = "取得に失敗しました。"
+                l_border = "取得に失敗しました。"
         
         return u_border, l_border, time_text
 
