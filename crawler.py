@@ -23,7 +23,8 @@ class GoldenLeagueCrawler:
         if not self.detail_crawl(self.retry_count):
             print("クロールに失敗しました。")
             self.driver.close()
-            return
+            self.driver.quit()
+            return False
 
         if self.start_date < self.now_datetime() <= self.end_date + timedelta(hours=1):
             self.gold_u_border, self.gold_l_border, self.time_text = self.border_crawl(self.ranking_page_url(self.league_count, 3), self.retry_count)
@@ -31,7 +32,9 @@ class GoldenLeagueCrawler:
             self.bronze_u_border, self.bronze_l_border, self.time_text = self.border_crawl(self.ranking_page_url(self.league_count, 1), self.retry_count)
         
         self.driver.close()
+        self.driver.quit()
         self.crawl_end = True
+        return True
 
     def detail_crawl(self, retry_count):
         url = self.ranking_page_url()
