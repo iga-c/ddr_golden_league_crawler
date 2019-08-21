@@ -130,7 +130,7 @@ class GoldenLeagueCrawler:
     def ranking_page_url(self, league_id=0, class_id=0):
         url = "https://p.eagate.573.jp/game/ddr/ddra20/p/ranking/index.html"
         if 0 < league_id and 0 < class_id:
-            url += "?league_id=%d&class_id=%d" % league_id, class_id
+            url += "?league_id=" + str(league_id) + "&class_id=" + str(class_id)
         
         return url
 
