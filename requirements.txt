@@ -1,4 +1,0 @@
-selenium
-twitter
-pyyaml
-python-dateutil
